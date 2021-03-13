@@ -1,0 +1,4 @@
+230 respirator 2 none 1000212,1000217
+231 none 4 nurse 1000214
+232 none 2 doctor
+233 none 1 nurse 1000219
