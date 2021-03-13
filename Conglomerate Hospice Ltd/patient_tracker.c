@@ -16,9 +16,12 @@ void Exit_WithSave();
 void Exit_WithoutSave();
 
 // Global Constants
-int PSIZE = 35;
-int RSIZE = 21;
-int MAX_BEDS = 5;
+// int PSIZE = 35;
+// int RSIZE = 21;
+// int MAX_BEDS = 5;
+#define PSIZE 35
+#define RSIZE 21
+#define MAX_BEDS 5
 
 // Structures - Patient and Room
 typedef struct Patient
@@ -33,11 +36,11 @@ typedef struct Patient
 
 typedef struct Room
 {
-    int room_no[7];                // Declare Room-Number
-    char respirator_stat[10];      // Declare Respirator-Status
-    int n_beds;                    // Declare Number-of-Beds
-    char personnel[9];             // Declare Admitted_Status
-    int assigned_patients[n_beds]; // Declare the Patients in a Room
+    int room_no[7];                  // Declare Room-Number
+    char respirator_stat[10];        // Declare Respirator-Status
+    int n_beds;                      // Declare Number-of-Beds
+    char personnel[9];               // Declare Admitted_Status
+    int assigned_patients[MAX_BEDS]; // Declare the Patients in a Room
 
 } R;
 
@@ -45,7 +48,19 @@ typedef struct Room
 int main()
 {
     // Variable declarations & Allocating Memory
-    int num_courses, num_enroll, num_students;
+    int user_option;
+
+    // Displays the Menu
+    printf("\n*******************************");
+    printf("\n*  Conglomerate Hospice Ltd.  *");
+    printf("\n*******************************");
+    printf("\n\'1\' - Add A Patient.");
+    printf("\n\'2\' - Add A Room.");
+    printf("\n\'3\' - Change Patient Status.");
+    printf("\n\'4\' - AI Assignment.");
+    printf("\n\'0\' - Exit.");
+    printf("\n*******************************");
+    scanf("%d", &user_option); // Accepts the Users-Option
 
     // Implement switch function
     switch (user_option)
@@ -66,6 +81,13 @@ int main()
         AI_Assignment();
         break;
 
+    case 0:
+        system("cls"); // Clears the screen
+        printf("** That is not a valid option **");
+        printf("** Please try again **");
+        main(); // Starts over
+        break;
+
     default:
         system("cls"); // Clears the screen
         printf("** Goodbye **");
@@ -73,6 +95,8 @@ int main()
         break;
 
     } // Ends switch
+
+    return 0;
 }
 
 /*
