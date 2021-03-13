@@ -60,17 +60,18 @@ int main()
     printf("\n\'4\' - AI Assignment.");
     printf("\n\'0\' - Exit.");
     printf("\n*******************************");
+    printf("\nEnter Option here: ");
     scanf("%d", &user_option); // Accepts the Users-Option
 
     // Implement switch function
     switch (user_option)
     {
     case 1:
-        AddRoom(); // Leads to function
-        break;     // Terminate switch
+        AddPatient(); // Leads to function
+        break;        // Terminate switch
 
     case 2:
-        AddPatient();
+        AddRoom();
         break;
 
     case 3:
@@ -83,15 +84,15 @@ int main()
 
     case 0:
         system("cls"); // Clears the screen
-        printf("** That is not a valid option **");
-        printf("** Please try again **");
-        main(); // Starts over
+        printf("** Goodbye **");
+        exit(0); // Ends the Program
         break;
 
     default:
         system("cls"); // Clears the screen
-        printf("** Goodbye **");
-        exit(0); // Ends the Program
+        printf("** That is not a valid option **");
+        printf("** Please try again **");
+        main(); // Starts over
         break;
 
     } // Ends switch
