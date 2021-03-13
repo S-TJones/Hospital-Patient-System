@@ -1,0 +1,286 @@
+DECLARE AddRoom as FUNCTION
+DECLARE AddPatient as FUNCTION
+DECLARE ChangeStatus as FUNCTION
+DECLARE AI_Assignment as FUNCTION
+DECLARE Discharge as FUNCTION
+DECLARE RoomReport as FUNCTION
+DECLARE AdmittedReport as FUNCTION
+DECLARE StatusReport as FUNCTION
+Declare Exit_WithSave as FUNCTION
+Declare Exit_WithoutSave as FUNCTION
+DEFINE PSIZE as 35
+DEFINE RSIZE as 21
+
+START
+    DECLARE  choice as INTEGER
+
+    DECLARE patientptr as POINTER to file
+    DECLARE roomptr as POINTER to file
+
+    patientptr = fopen("patient.txt", "w")
+    roomptr = fopen ("room.txt", "w")
+
+    If (patientptr == NULL)
+    If (roomptr == NULL) THEN
+    WRITE "Error! opening file"
+    ENDIf
+
+
+    WRITE "=============================================="
+    WRITE “Conglomerate Hospice Ltd”
+    WRITE "COVID-19 Patients tracker"
+    WRITE"============================================"
+
+    WHILE (choice!=9) DO
+        WRITE "MENU"
+        WRITE "------------------------------------------------------------"
+        WRITE "    1  - Add A Patient "
+        WRITE "    2  - Add A Room”
+        WRITE "    3  - Change Patient Status"
+        WRITE "    4  - AI Assignment"
+        WRITE "    5  - Discharge\n");
+        WRITE "    6  - Room admittance by age group Report"
+        WRITE "    7  - Admitted patient list Report"
+        WRITE "    8  - COVID-19 status Report"
+        WRITE "    9  - Exit and Save\n");
+        WRITE "    10 - Exit without save"
+        WRITE "------------------------------------------------------------")
+        WRITE "Enter Your Choice: "
+        READ choice
+
+    switch(choice)
+    case 1:
+        Call AddPatient
+        break
+    case 2:
+        Call AddRoom
+        break
+    case 3:
+        Call ChangeStatus
+        break
+    case 4:
+        Call AI_Assignment
+        break
+    case 5:
+        Call Discharge
+        break
+    case 6:
+        Call RoomReport
+        break
+    case 7:
+        Call AdmittedReport
+        break
+    case 8:
+        Call StatusReport
+        break
+    case 9:
+        Call Exit_WithSave 
+    case 10:
+        l Exit_WithoutSave
+    End CASE
+END
+
+Record of patient
+	Declare id[7] as integer
+	Declare name[25] as character
+	Declare Covid_Stat as character
+	Declare birthyear as integer
+	Declare Admitted_Status as character
+End patient
+
+Function AddPatient
+	Declare i as integer
+	Record patient p[SIZE]
+	DECLARE patientptr as POINTER to file
+	Open "patient.txt" in APPEND mode
+	If “patient.txt” Not FOUND then
+		PRINT “File cannot be opened”
+	Else
+		For i starts at 0, i < PSIZE, increment i
+			PRINT “Please enter patient id number: ”
+			READ p[i].id
+			PRINT “Please enter patient full name: ”
+			READ p[i].name
+			PRINT “Please enter COVID-19 status”
+			READ p[i].Covid_Stat
+			CASE of p[i].Covid_Stat
+				‘A’: copy “Average” to p_status
+				‘C’: copy “Criticial” to p_status
+				‘M’: copy “Mild” to p_status
+				‘S’: copy “Severe” to p_status
+				default: copy “None” to p_status
+			End CASE
+    PRINT “Please enter birthyear”
+    READ p[i].birthyear
+    PRINT “Please enter admitted status (A-Admitted or D-Discharged)”
+    READ p[i].Admitted_Stat
+    Fwrite “p[i].id, p[i].name, p_status, p[i].birthyear, p[i].Admitted_Stat”
+End AddPatient		
+
+Record of room
+	Declare room_no [7] as integer
+	Declare respirator_stat as character
+	Declare nbeds  as integer
+	Declare personnel as string
+End room
+
+Function AddRoom
+    Declare i as integer
+    Declare r_status
+	Record room r[SIZE]
+		DECLARE roomptr as POINTER to file
+	Open "room.txt" in APPEND mode
+	If “room.txt” Not FOUND then
+		PRINT “File cannot be opened”
+	Else
+		For i starts at 0, i < RSIZE, increment i
+			PRINT “Please enter room number: ”
+			READ r[i].room_no
+			PRINT “Does the room have a respirator (Y-Yes or N- No) ”
+			READ r[i].respirator_stat
+			WHILE r[i].respirator_stat != 'Y' && r[i].respirator_stat != 'N') 
+     				PRINT “Does the room have a respirator (Y-Yes or N- No) ”
+				READ r[i].respirator_stat
+			End WHILE
+			If r[i].respirator_stat == Y then
+				copy “Respirator” to r_status
+			Else 
+				copy “None” to r_status
+			End If
+    PRINT “Please enter nbeds”
+    READ r[i].nbeds
+    WHILE nbeds > 5 or nbeds < 0 
+            PRINT "Error"
+            PRINT “Please enter nbeds”
+            READ r[i].nbeds
+    END WHILE
+    PRINT “Please enter personnel status (Nurse or Doctor or None)”
+    READ r[i].personnel_Stat
+    Fwrite “r[i].room_no, r[i].respirator_stat, r[i].nbeds, r[i].personnel_stat”
+End AddRoom
+
+Function ChangeStatus
+	Declare id_no as int
+	Declare new_status as string
+	DECLARE patientptr as POINTER to file
+	Print “Enter id number to be updated”
+	Read id
+Open “patient.txt” in READ and WRITE mode
+	If id_no is found then
+		Print “Enter new status”
+		Read new _status
+		Copy new_status to Covid_Stat in file
+	End If
+	Print “Record successfully updated!”
+	Close patient.txt	
+End ChangeStatus Function			 
+
+Function AI_Assignment
+    Declare status as character 
+    Declare age as integer 
+    Declare stat as string
+    Print “Does the patient have a bed Y-Yes or N-No”
+    Read status
+    WHILE status != 'Y' && status != 'N') 
+            PRINT “Does the patient have a bed (Y-Yes or N- No) ”
+        READ status
+    While (status)
+    End WHILE
+    If age > 1 and "Critical" is copied to stat then
+            Print "Room with bed, respirator and doctor"
+    Else
+        If age > 60 and "Severe" is copied to stat then
+            Print "Room with bed, respirator and/or nurse"
+        Else 
+            If age > 60 and ("Mild" is copied to stat or "Average" is copied to stat) then
+                Print "Room with bed"
+            Else 
+                If age > 40 and ( "Average" is copied to stat or "Severe" is copied to stat) then
+                If age < 60 and ("Average" is copied to stat or "Severe" is copied to stat) then
+                    Print "Room with bed and/or nurse"
+                Else 
+                    If  age > 40 and "Mild" is copied to stat, then
+                    If  (age < 60 and "Mild" is copied to stat, then
+                        Print "Room with bed"
+                    Else 
+                        If age > 20 and "Severe" is copied to stat, then
+                        If age < 39 && "Severe" is copied to stat, then
+                            Print "Room with bed and doctor"
+                        Else 
+                            If age > 20 and ("Mild" is copied to stat or "Average" is copied to stat) , then
+                            If (age < 39 and ("Mild" is copied to stat or "Average" is copied to stat)  , then                          
+    printf("Room with bed");
+                            Else 
+                                If age < 20 and ("Average"  is copied to stat or "Severe" is copied to stat) , then
+                                If age < 20  and ("Average"  is copied to stat or "Severe" is copied to stat)   , then                             
+    Print "Room with bed and nurse"
+                                Else 
+                                    If  age < 20 and "Mild"  is copied to stat , then
+                                    If  (age < 20 "Mild"  is copied to stat, then
+                                        Print "Room with bed"
+    Else 
+        Print “Discharge”
+    End If
+End Function
+
+Function Discharge
+	Declare id_no as int
+	Declare p_stat as string
+	DECLARE patientptr as POINTER to file
+	Print “Enter id number of patient to be discharged: ”
+	Read id_no
+    Open “patient.txt” in READ and WRITE mode
+	If id_no is found, then
+		If p[i].admittedstat = ‘A’, then 
+			Print “There is a change”
+			Print “Patient is discharged”
+			“Discharge” is copied to p_stat
+		End If
+		If patient assigned to room, then
+			Delete from room
+		End If
+	Print “Patient discharged and removed from room!”)
+	Close patient.txt	
+End Discharge Function	
+
+Function RoomReport
+    Room admittance by age group Report:
+    Bar (x, height, width = 0.8, bottom = none, align ='center', data= Now,**kways) 
+
+    Declare x,y  
+    Declare label 
+    Declare Title 
+    Declare bar
+
+    x = [Critical, Severe,Mild, Average]
+    y = [60s, 40 to 60, 20 to 39, younger than 39]
+    w = [0.2,0.5,0.7,0.8]
+    bar (x,y,width = w)
+    x.Label ("Status")
+    y.Label ("Age")
+    Title ("number of persons currently assigned to rooms grouped by their age groups")
+
+    BOTTOM 
+    x = [Critical, Severe,Mild, Average]
+    y = [60s, 40 to 60, 20 to 39, younger than 39]
+    bar (x,h,bottom = 20)
+    x.Label ("Status")
+    y.Label ("Age")
+End RoomReport Function
+
+Function Admitted Report
+	Generate report of admitted patients in ascending order by id numbers
+End Admitted Function
+
+Function StatusReport
+	Bar chart frequency report to show patients grouped by covid status
+End StatusReport Function
+
+Function Exit_WithSave
+	Print "Thank you for using the program”
+	Exit 
+End Function
+
+Function Exit_WithoutSave
+	Exit without save
+End Function
