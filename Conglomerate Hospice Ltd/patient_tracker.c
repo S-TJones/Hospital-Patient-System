@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+#include <conio.h> // Has the getch() function
 
 // Declaring function prototypes
 void AddRoom();
@@ -45,16 +48,16 @@ typedef struct Room
 int main()
 {
     // Variable declarations & Allocating Memory
-    int choice = 0;
+    int choice = 1;
 
-    while ((choice != 9) || (choice != 10))
+    while (choice) // Infinite Loop
     {
         // Displays the Menu
-        printf("\n==============================================");
-        printf("\nConglomerate Hospice Ltd");
-        printf("\nCOVID-19 Patients tracker");
-        printf("\n==============================================");
-        printf("\nMENU");
+        printf("\n============================================================");
+        printf("\n\t\tConglomerate Hospice Ltd");
+        printf("\n\t\tCOVID-19 Patients tracker");
+        printf("\n============================================================");
+        printf("\n\t\t\t MENU");
         printf("\n------------------------------------------------------------");
         printf("\n\t1  - Add A Patient ");
         printf("\n\t2  - Add A Room");
@@ -69,57 +72,62 @@ int main()
         printf("\n------------------------------------------------------------");
         printf("\nEnter Your Choice: ");
         scanf("%d", &choice); // Accepts the Users-Option
+        printf("\n\n");
+
+        // Implement switch function
+        switch (choice)
+        {
+        case 1:
+            AddPatient(); // Leads to function
+            break;        // Terminate switch
+
+        case 2:
+            AddRoom();
+            break;
+
+        case 3:
+            ChangeStatus();
+            break;
+
+        case 4:
+            AI_Assignment();
+            break;
+
+        case 5:
+            Discharge();
+            break;
+
+        case 6:
+            RoomReport();
+            break;
+
+        case 7:
+            AdmittedReport();
+            break;
+
+        case 8:
+            StatusReport();
+            break;
+
+        case 9:
+            Exit_WithSave();
+            break;
+
+        case 10:
+            Exit_WithoutSave();
+            break;
+
+        default:
+            system("cls"); // Clears the screen
+            printf("\n** That is not a valid option **");
+            printf("\n** Please try again **");
+            printf("\n** Press any key to continue... **");
+            getch();
+            main(); // Starts over
+            break;
+
+        } // Ends switch
     }
-
-    // Implement switch function
-    switch (choice)
-    {
-    case 1:
-        AddPatient(); // Leads to function
-        break;        // Terminate switch
-
-    case 2:
-        AddRoom();
-        break;
-
-    case 3:
-        ChangeStatus();
-        break;
-
-    case 4:
-        AI_Assignment();
-        break;
-
-    case 5:
-        Discharge();
-        break;
-
-    case 6:
-        RoomReport();
-        break;
-
-    case 7:
-        AdmittedReport();
-        break;
-
-    case 8:
-        StatusReport();
-        break;
-
-    case 9:
-        Exit_WithSave();
-
-    case 10:
-        Exit_WithoutSave();
-
-    default:
-        system("cls"); // Clears the screen
-        printf("** That is not a valid option **");
-        printf("** Please try again **");
-        main(); // Starts over
-        break;
-
-    } // Ends switch
 
     return 0;
 }
@@ -133,6 +141,7 @@ that new entries follow the field requirements
 void AddRoom()
 {
     system("cls"); //clears screen
+    printf("To be continued");
 }
 
 /*
@@ -143,6 +152,7 @@ that new entries follow the field requirements
 */
 void AddPatient()
 {
+    printf("To be continued");
 }
 
 /*
@@ -151,6 +161,7 @@ system (even if they are discharged). The patient is located by their unique id 
 */
 void ChangeStatus()
 {
+    printf("To be continued");
 }
 
 /*
@@ -161,6 +172,7 @@ listed first get priority over the others.
 */
 void AI_Assignment()
 {
+    printf("To be continued");
 }
 
 /*
@@ -168,7 +180,10 @@ The patient’s record is changed from admitted to discharged and the patient is
 removed from the room they were assigned (if they were assigned a room). Patients are
 discharged based on their unique id numbers.
 */
-void Discharge() {}
+void Discharge()
+{
+    printf("To be continued");
+}
 
 /*
 Room admittance by age group Report: A bar chart frequency report that will show the number
@@ -176,7 +191,10 @@ of persons currently assigned to rooms grouped by their age groups: over 60s, 40
 and younger than 39. The user should then be given the option to save the report to a file (the
 system will request a file name from the user to save the file).
 */
-void RoomReport() {}
+void RoomReport()
+{
+    printf("To be continued");
+}
 
 /*
 Admitted patient list Report: A list of all of the patients currently admitted ordered by their id
@@ -185,7 +203,10 @@ assigned (“none” if not yet assigned a room) and current COVID-19 status. Th
 be given the option to save the report to a file (the system will request a file name from the user
 to save the file).
 */
-void AdmittedReport() {}
+void AdmittedReport()
+{
+    printf("To be continued");
+}
 
 /*
 COVID-19 status Report: bar chart frequency report that will show the number of persons
@@ -195,14 +216,34 @@ should be ordered by frequency from highest to lowest (descending order). The us
 then be given the option to save the report to a file (the system will request a file name from
 the user to save the file).
 */
-void StatusReport() {}
+void StatusReport()
+{
+    printf("To be continued");
+}
 
 /*
 Exit: close the system with automatic save of changes made to the file.
 */
-void Exit_WithSave() {}
+void Exit_WithSave()
+{
+
+    // Saves data to files
+    /*
+        HERE
+    */
+
+    system("cls"); // Clears the screen
+    printf("\n\n** Saving Data **");
+    printf("\n** Goodbye **");
+    exit(0); // Ends the Program
+}
 
 /*
 Exit without save: abruptly close the system disregarding all changes made to the system.
 */
-void Exit_WithoutSave() {}
+void Exit_WithoutSave()
+{
+    system("cls"); // Clears the screen
+    printf("\n\n** Goodbye **");
+    exit(0); // Ends the Program
+}
